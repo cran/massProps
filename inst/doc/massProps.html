@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>massProps</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}
+</style>
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">massProps</h1>
+
+
+
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<p>The <code>massProps</code> package extends <code>rollupTree</code>
+with functions to recursively calculate mass properties (and optionally,
+their uncertainties) for arbitrary decomposition trees. Formulas
+implemented are described in a technical paper published by the Society
+of Allied Weight Engineers.<span class="citation">(Zimmerman and Nakai
+2005)</span></p>
+</div>
+<div id="synopsis" class="section level1">
+<h1>Synopsis</h1>
+<div id="data-structures" class="section level2">
+<h2>Data Structures</h2>
+<p><code>massProps</code> operates on two fundamental data structures: a
+mass properties table and a tree. The mass properties table has an entry
+for every item in a tree structure of items; the edges of the tree
+convey the parent-child relations among items. The two data structures
+are linked by the <code>id</code> column of the data frame, which must
+be a character vector of unique item identifiers, and the vertex names
+of the tree. The sets of identifiers must be identical.</p>
+<div id="mass-property-table" class="section level3">
+<h3>Mass Property Table</h3>
+<div id="required-columns-for-mass-properties" class="section level4">
+<h4>Required Columns for Mass Properties</h4>
+<p>The Mass Property Table must contain the following columns. Other
+columns may exist and will remain unmodified.</p>
+<ul>
+<li><p><code>id</code> unique identifier for each item (row)</p></li>
+<li><p><code>mass</code> mass of the item (numeric)</p></li>
+<li><p><code>Cx</code> <span class="math inline">\(x\)</span>-component
+of center of mass (numeric)</p></li>
+<li><p><code>Cy</code> <span class="math inline">\(y\)</span>-component
+of center of mass (numeric)</p></li>
+<li><p><code>Cx</code> <span class="math inline">\(z\)</span>-component
+of center of mass (numeric)</p></li>
+<li><p><code>Ixx</code> moment of inertia about the <span class="math inline">\(x\)</span> axis (numeric)</p></li>
+<li><p><code>Iyy</code> moment of inertia about the <span class="math inline">\(y\)</span> axis (numeric)</p></li>
+<li><p><code>Izz</code> moment of inertia about the <span class="math inline">\(z\)</span> axis (numeric)</p></li>
+<li><p><code>Ixy</code> product of inertia relative to the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> axes (numeric)</p></li>
+<li><p><code>Ixz</code> product of inertia relative to the <span class="math inline">\(x\)</span> and <span class="math inline">\(z\)</span> axes (numeric)</p></li>
+<li><p><code>Iyz</code> product of inertia relative to the <span class="math inline">\(y\)</span> and <span class="math inline">\(z\)</span> axes (numeric)</p></li>
+<li><p><code>POIconv</code> either ‘+’ or ‘-’, indicating the sign
+convention for products of inertia<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p></li>
+<li><p><code>Ipoint</code> logical indicator that this item is
+considered a point mass (i.e., its inertia contribution is negligible)<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p></li>
+</ul>
+</div>
+<div id="required-columns-for-mass-properties-uncertainties" class="section level4">
+<h4>Required Columns for Mass Properties Uncertainties</h4>
+<p>The following columns are required for uncertainty calculations:</p>
+<ul>
+<li><p><code>sigma_mass</code> mass uncertainty (numeric)</p></li>
+<li><p><code>sigma_Cx</code> <span class="math inline">\(x\)</span>-component of center of mass uncertainty
+(numeric)</p></li>
+<li><p><code>sigma_Cy</code> <span class="math inline">\(y\)</span>-component of center of mass uncertainty
+(numeric)</p></li>
+<li><p><code>sigma_Cx</code> <span class="math inline">\(z\)</span>-component of center of mass uncertainty
+(numeric)</p></li>
+<li><p><code>sigma_Ixx</code> moment of inertia about the <span class="math inline">\(x\)</span> axis uncertainty (numeric)</p></li>
+<li><p><code>sigma_Iyy</code> moment of inertia about the <span class="math inline">\(y\)</span> axis uncertainty (numeric)</p></li>
+<li><p><code>sigma_Izz</code> moment of inertia about the <span class="math inline">\(z\)</span> axis uncertainty (numeric)</p></li>
+<li><p><code>sigma_Ixy</code> product of inertia relative to the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> axes uncertainty (numeric)</p></li>
+<li><p><code>sigma_Ixz</code> product of inertia relative to the <span class="math inline">\(x\)</span> and <span class="math inline">\(z\)</span> axes uncertainty (numeric)</p></li>
+<li><p><code>sigma_Iyz</code> product of inertia relative to the <span class="math inline">\(y\)</span> and <span class="math inline">\(z\)</span> axes uncertainty (numeric)</p></li>
+</ul>
+<p>It is the caller’s responsibility to ensure that all values are
+expressed in appropriate and compatible units.</p>
+</div>
+<div id="tree" class="section level4">
+<h4>Tree</h4>
+<p>The tree is an <code>igraph::graph</code> with vertices named by
+identifiers in the mass properties table. It can be of arbitrary depth
+and shape as long as it satisfies certain well-formedness
+properties:</p>
+<ul>
+<li><p>it is connected and acyclic (as an undirected graph), i.e., it is
+a tree</p></li>
+<li><p>it is directed, with edge direction going from child to
+parent</p></li>
+<li><p>it contains neither loops (self-edges) nor multiple
+edges</p></li>
+<li><p>it contains a single root vertex (i.e., one whose out degree is
+zero)</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="invocation" class="section level2">
+<h2>Invocation</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(rollupTree)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(massProps)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({<span class="fu">library</span>(igraph)})</span></code></pre></div>
+<p>Suppose we have the following mass properties table:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>test_table</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt;     id parent mass Cx Cy Cz Ixx  Ixy   Ixz Iyy   Iyz Izz POIconv Ipoint</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; 1  A.1          NA NA NA NA  NA   NA    NA  NA    NA  NA       -  FALSE</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; 2  A.2    A.1   NA NA NA NA  NA   NA    NA  NA    NA  NA       -  FALSE</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; 3  A.3    A.1   NA NA NA NA  NA   NA    NA  NA    NA  NA       -  FALSE</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; 4  C.1    A.1    5  0  0  0  80 -4.0 -24.0  80 -24.0  75       -  FALSE</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; 5  P.1    A.2    2  1  1  1   4 -0.1  -0.1   4   0.1   4       -  FALSE</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; 6  P.2    A.2    2  1  1 -1   4 -0.1  -0.1   4   0.1   4       -  FALSE</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; 7  P.3    A.2    2  1 -1  1   4 -0.1  -0.1   4   0.1   4       -  FALSE</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; 8  P.4    A.2    2  1 -1 -1   4 -0.1  -0.1   4   0.1   4       -  FALSE</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt; 9  P.5    A.3    2 -1  1  1   4 -0.1  -0.1   4   0.1   4       -  FALSE</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; 10 P.6    A.3    2 -1  1 -1   4 -0.1  -0.1   4   0.1   4       -  FALSE</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; 11 P.7    A.3    2 -1 -1  1   4 -0.1  -0.1   4   0.1   4       -  FALSE</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt; 12 P.8    A.3    2 -1 -1 -1   4 -0.1  -0.1   4   0.1   4       -  FALSE</span></span></code></pre></div>
+<p>Suppose we also have this tree:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>test_tree</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; IGRAPH d76039e DN-- 12 11 -- </span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; + attr: name (v/c)</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; + edges from d76039e (vertex names):</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt;  [1] A.2-&gt;A.1 A.3-&gt;A.1 C.1-&gt;A.1 P.1-&gt;A.2 P.2-&gt;A.2 P.3-&gt;A.2 P.4-&gt;A.2 P.5-&gt;A.3</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt;  [9] P.6-&gt;A.3 P.7-&gt;A.3 P.8-&gt;A.3</span></span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+<p>Then we can compute mass properties for non-leaf elements by calling
+<code>rollup_mass_props()</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">rollup_mass_props</span>(test_tree, test_table)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co">#&gt;     id parent mass Cx Cy Cz Ixx  Ixy   Ixz Iyy   Iyz Izz POIconv Ipoint</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; 1  A.1          21  0  0  0 144 -4.8 -24.8 144 -23.2 139       -  FALSE</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; 2  A.2    A.1    8  1  0  0  32 -0.4  -0.4  24   0.4  24       -  FALSE</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; 3  A.3    A.1    8 -1  0  0  32 -0.4  -0.4  24   0.4  24       -  FALSE</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; 4  C.1    A.1    5  0  0  0  80 -4.0 -24.0  80 -24.0  75       -  FALSE</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; 5  P.1    A.2    2  1  1  1   4 -0.1  -0.1   4   0.1   4       -  FALSE</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; 6  P.2    A.2    2  1  1 -1   4 -0.1  -0.1   4   0.1   4       -  FALSE</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; 7  P.3    A.2    2  1 -1  1   4 -0.1  -0.1   4   0.1   4       -  FALSE</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; 8  P.4    A.2    2  1 -1 -1   4 -0.1  -0.1   4   0.1   4       -  FALSE</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; 9  P.5    A.3    2 -1  1  1   4 -0.1  -0.1   4   0.1   4       -  FALSE</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt; 10 P.6    A.3    2 -1  1 -1   4 -0.1  -0.1   4   0.1   4       -  FALSE</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt; 11 P.7    A.3    2 -1 -1  1   4 -0.1  -0.1   4   0.1   4       -  FALSE</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; 12 P.8    A.3    2 -1 -1 -1   4 -0.1  -0.1   4   0.1   4       -  FALSE</span></span></code></pre></div>
+<p>The input may also contain uncertainties data. This example is from
+the Society of Allied Weight Engineers:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>sawe_input</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt;         id  mass    Cx    Cy    Cz     Ixx     Iyy      Izz    Ixy      Ixz</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt; 1   Widget 57.83 121.2  0.04 -0.16 7258.90 8607.02 10453.40 834.44 -1198.38</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; 2 2nd Part 16.80  70.9 -0.95  0.46   65.07 1124.65  1078.82  76.01   202.83</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; 3 Combined    NA    NA    NA    NA      NA      NA       NA     NA       NA</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt;        Iyz sigma_mass sigma_Cx sigma_Cy sigma_Cz sigma_Ixx sigma_Iyy sigma_Izz</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; 1 -1066.58     1.2416   0.2764   0.2085   0.0669  386.9233  171.4792  414.5547</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; 2    13.62     1.7308   0.6234   0.5173   0.1405   12.4687  109.1324  108.5481</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; 3       NA         NA       NA       NA       NA        NA        NA        NA</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt;   sigma_Ixy sigma_Ixz sigma_Iyz Ipoint POIconv</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; 1 1440.5402  344.6237  124.6860  FALSE       +</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; 2   55.8879  212.1241   11.5408  FALSE       +</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; 3        NA        NA        NA  FALSE       +</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">rollup_mass_props_and_unc</span>(sawe_tree, sawe_input)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt;         id  mass       Cx         Cy          Cz      Ixx      Iyy      Izz</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; 1   Widget 57.83 121.2000  0.0400000 -0.16000000 7258.900  8607.02 10453.40</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; 2 2nd Part 16.80  70.9000 -0.9500000  0.46000000   65.070  1124.65  1078.82</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; 3 Combined 74.63 109.8769 -0.1828594 -0.02043146 7341.733 42673.75 44482.05</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt;        Ixy       Ixz       Iyz sigma_mass sigma_Cx  sigma_Cy   sigma_Cz</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; 1  834.440 -1198.380 -1066.580    1.24160  0.27640 0.2085000 0.06690000</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; 2   76.010   202.830    13.620    1.73080  0.62340 0.5173000 0.14050000</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; 3 1558.714 -1401.534 -1060.951    2.13008  0.95821 0.1999847 0.06178402</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt;   sigma_Ixx sigma_Iyy sigma_Izz sigma_Ixy sigma_Ixz sigma_Iyz Ipoint POIconv</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt; 1  386.9233  171.4792  414.5547 1440.5402  344.6237  124.6860  FALSE       +</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt; 2   12.4687  109.1324  108.5481   55.8879  212.1241   11.5408  FALSE       +</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt; 3  387.4017 2789.3133 2815.3260 1488.0948  418.6048  125.3175  FALSE       +</span></span></code></pre></div>
+</div>
+</div>
+<div id="objectives-and-strategy" class="section level1">
+<h1>Objectives and Strategy</h1>
+<p>The objective of this package is to provide a trustworthy,
+well-documented, reference implementation for computation of mass
+properties (and their uncertainties) of aggregate objects from those of
+their parts. Aggregation can be recursive (e.g., indentured Bill of
+Materials), so it must accommodate trees of arbitrary depth and
+shape.</p>
+<p>Strategies for achieving the objective include</p>
+<ul>
+<li><p>basing the calculations on published industry
+references,</p></li>
+<li><p>re-casting those lengthy reference equations into concise vector
+or matrix forms to reduce the error surface for source code and exploit
+the capabilities of <code>R</code>, which treats vectors and matrices as
+first-class objects,</p></li>
+<li><p>delegating orchestration to the <code>rollupTree</code> package,
+which, among other things, verifies that the input tree is well-formed
+and ensures proper ordering of computations,</p></li>
+<li><p>ensuring that all asserted leaf mass properties and uncertainties
+correspond to physically-realizable objects,</p></li>
+<li><p>coding in pure functional style, (i.e., avoiding mutable
+variables, implying iteration with <code>Map()</code> and
+<code>Reduce()</code>), and</p></li>
+<li><p>covering the entire code base with unit tests.</p></li>
+</ul>
+<p>The author has intentionally made no effort to micro-optimize for
+performance. In particular, the author is aware that representing the
+inertia and its uncertainty as 3 ⨉ 3 matrices is “inefficient” to the
+degree that it independently calculates values that are redundant by
+symmetry. “Inefficient”, however, does not mean “slow”. See <a href="#performance-evaluation">Performance Evaluation</a> below.</p>
+</div>
+<div id="theory" class="section level1">
+<h1>Theory</h1>
+<p>In this section, we state the reference equations <span class="citation">(Zimmerman and Nakai 2005)</span> and show, where
+applicable, how those equations can be rewritten in more concise form.
+The form of the equations actually implemented is displayed within a
+box, e.g. <span class="math inline">\(\boxed{F = ma}\)</span>.</p>
+<p>The reference uses the word <em>weight</em> and the symbol <span class="math inline">\(w\)</span> in equations. We interpret weight as
+mass. The reference refers to center of mass by its <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, and <span class="math inline">\(z\)</span> components. Symbols for moments (<span class="math inline">\(I_{xx}\)</span>) and products (<span class="math inline">\(I_{xy}\)</span>) of inertia are conventional.
+Variables with <span class="math inline">\(i\)</span> subscripts
+designate properties of parts; those without designate properties of
+aggregates. The letter <span class="math inline">\(\sigma\)</span>
+denotes uncertainty. <span class="math inline">\(\sigma_w\)</span>, for
+example, is the mass uncertainty.</p>
+<div id="mass-properties" class="section level2">
+<h2>Mass Properties</h2>
+<div id="mass" class="section level3">
+<h3>Mass</h3>
+<p>The mass equation is suitable as is.</p>
+<p><span class="math display">\[
+\boxed{
+w = \sum_{i=1}^{n}w_i
+}
+\]</span></p>
+<p>The corresponding <code>R</code> code is</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>  r<span class="sc">$</span>mass <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(<span class="st">`</span><span class="at">+</span><span class="st">`</span>, <span class="fu">Map</span>(<span class="at">f =</span> <span class="cf">function</span>(v) v<span class="sc">$</span>mass, vl))</span></code></pre></div>
+<p>In this and the following code snippets, the variable <code>vl</code>
+is a list of input mass property sets, the variable <code>v</code> is a
+formal parameter of an anonymous function applied to each member of
+<code>vl</code>, and <code>r</code> is the resulting mass property set.
+The line above is an <code>R</code> functional programming idiom for
+“set the mass value of the result to the sum of the mass values of the
+inputs”.</p>
+</div>
+<div id="center-of-mass" class="section level3">
+<h3>Center of Mass</h3>
+<p><span class="math display">\[
+\begin{align}
+\bar{x} &amp; = \sum_{i=1}^{n}{w_i}{{x}_i} \bigg/ \sum_{i=1}^{n}w_i\\
+\bar{y} &amp; = \sum_{i=1}^{n}{w_i}{{y}_i} \bigg/ \sum_{i=1}^{n}w_i\\
+\bar{z} &amp; = \sum_{i=1}^{n}{w_i}{{z}_i} \bigg/ \sum_{i=1}^{n}w_i\\
+\end{align}
+\]</span></p>
+<p>We can express center of mass as a 3-vector:</p>
+<p><span class="math display">\[
+\boxed{
+\begin{align}
+\boldsymbol{c}_i &amp; = (x_i \quad y_i \quad z_i)^T \\
+\boldsymbol{\bar{c}}&amp; = (\bar{x} \quad \bar{y} \quad \bar{z})^T
+\end{align}
+}
+\]</span></p>
+<p>Then</p>
+<p><span class="math display">\[
+\boxed{
+\boldsymbol{\bar{c}} = \frac{1}{w}
+\sum_{i=1}^{n}{w_i}{{\boldsymbol{c}}_i}
+}
+\]</span></p>
+<p>The corresponding <code>R</code> code is</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>  r<span class="sc">$</span>center_mass <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(<span class="st">`</span><span class="at">+</span><span class="st">`</span>, <span class="fu">Map</span>(<span class="at">f =</span> <span class="cf">function</span>(v) v<span class="sc">$</span>mass <span class="sc">*</span> v<span class="sc">$</span>center_mass, vl)) <span class="sc">/</span> r<span class="sc">$</span>mass</span></code></pre></div>
+</div>
+<div id="inertia-tensor" class="section level3">
+<h3>Inertia Tensor</h3>
+<div id="moments-of-inertia" class="section level4">
+<h4>Moments of Inertia</h4>
+<p><span class="math display">\[
+\begin{align}
+I_{XX} &amp; =
+  \sum_{i=1}^{n} \left[ {I_{XX}}_i
+    + w_i \left( {y}_i^2 + {z}_i^2 \right)
+  - w_i \left( \bar{y}^2 + \bar{z}^2 \right)
+  \right]
+&amp; =
+\sum_{i=1}^{n} \left\{ {I_{XX}}_i
+  + w_i \left[ \left( {y}_i - \bar{y} \right)^2 + \left( {z}_i - \bar{z}
+\right)^2 \right]
+  \right\}
+\\
+I_{YY} &amp; =
+  \sum_{i=1}^{n} \left[ {I_{YY}}_i
+    + w_i \left( {x}_i^2 + {z}_i^2 \right)
+  - w_i \left( \bar{x}^2 + \bar{z}^2 \right)
+  \right]
+&amp; =
+\sum_{i=1}^{n} \left\{ {I_{YY}}_i
+  + w_i \left[ \left( {x}_i - \bar{x} \right)^2 + \left( {z}_i - \bar{z}
+\right)^2 \right]
+  \right\}
+\\
+I_{ZZ} &amp; =
+  \sum_{i=1}^{n} \left[ {I_{ZZ}}_i
+    + w_i \left( {x}_i^2 + {y}_i^2 \right)
+  - w_i \left( \bar{x}^2 + \bar{y}^2 \right)
+  \right]
+&amp; =
+\sum_{i=1}^{n} \left\{ {I_{ZZ}}_i
+  + w_i \left[ \left( {x}_i - \bar{x} \right)^2 + \left( {y}_i - \bar{y}
+\right)^2 \right]
+  \right\}
+\\
+\end{align}
+\]</span></p>
+</div>
+<div id="products-of-inertia" class="section level4">
+<h4>Products of Inertia</h4>
+<p><span class="math display">\[
+\begin{align}
+I_{XY} &amp; = \sum_{i=1}^{n} \left[ {I_{XY}}_i + w_i {{x}_i}{{y}_i}
+-w_i (\bar{x}\bar{y})\right] &amp; = \sum_{i=1}^{n} \left[ {I_{XY}}_i +
+w_i ({x}_i - \bar{x})({y}_i - \bar{y})\right] \\
+I_{XZ} &amp; = \sum_{i=1}^{n} \left[ {I_{XZ}}_i + w_i {{x}_i}{{z}_i}
+-w_i (\bar{x}\bar{z})\right] &amp; = \sum_{i=1}^{n} \left[ {I_{XZ}}_i +
+w_i ({x}_i - \bar{x})({z}_i - \bar{z})\right] \\
+I_{YZ} &amp; = \sum_{i=1}^{n} \left[ {I_{YZ}}_i + w_i {{y}_i}{{z}_i}
+-w_i (\bar{y}\bar{z})\right] &amp; = \sum_{i=1}^{n} \left[ {I_{YZ}}_i +
+w_i ({y}_i - \bar{y})({z}_i - \bar{z})\right] \\
+\end{align}
+\]</span></p>
+</div>
+<div id="matrix-formulation" class="section level4">
+<h4>Matrix Formulation</h4>
+<p>Let <span class="math inline">\(I\)</span> be the inertia tensor of
+the aggregate and <span class="math inline">\(I_i\)</span> be that of
+part <span class="math inline">\(i\)</span>. The equations for products
+of inertia above clearly follow the positive integral convention, so</p>
+<p><span class="math display">\[
+I =
+\left[ \begin{matrix}
+I_{xx} &amp; -I_{xy} &amp; -I_{xz} \\
+-I_{xy} &amp;  I_{yy} &amp; -I_{yz} \\
+-I_{xz} &amp; -I_{yz} &amp;  I_{zz}
+\end{matrix}
+\right]
+\]</span></p>
+<p>and similarly for <span class="math inline">\(I_i\)</span>.</p>
+<p>Noting the repeated appearance of terms of the form <span class="math inline">\(({x}_i - \bar{x})({y}_i - \bar{y})\)</span>, we
+form the outer product</p>
+<p><span class="math display">\[
+\boxed{
+\begin{align}
+\boldsymbol{d}_i &amp; = (({x}_i - \bar{x}) \quad ({y}_i - \bar{y})
+\quad ({z}_i - \bar{z}))^T \\
+\boldsymbol{Q}_i &amp; = \boldsymbol{d}_i {\boldsymbol{d}_i}^T
+\end{align}
+}
+\]</span> Then</p>
+<p><span class="math display">\[
+\begin{align}
+\boldsymbol{Q}_i &amp; =
+\begin{bmatrix}
+({x}_i - \bar{x})^2     &amp; ({x}_i - \bar{x})({y}_i - \bar{y}) &amp;
+({x}_i - \bar{x})({z}_i - \bar{z}) \\
+({y}_i - \bar{y})({x}_i - \bar{x}) &amp; ({y}_i - \bar{y})^2     &amp;
+({y}_i - \bar{y})({z}_i - \bar{z}) \\
+({z}_i - \bar{z})({x}_i - \bar{x}) &amp; ({z}_i - \bar{z})({y}_i -
+\bar{y}) &amp; ({z}_i - \bar{z})^2     \\
+\end{bmatrix}
+\end{align}
+\]</span></p>
+<p>Let <span class="math inline">\(\boldsymbol{s}_i\)</span> be the
+matrix of inertia tensor summands from the reference equations. That
+is,</p>
+<p><span class="math display">\[
+\boldsymbol{I} = \sum_{i=1}^{n} \boldsymbol{s}_i
+\]</span></p>
+<p>where <span class="math display">\[
+\begin{align}
+\boldsymbol{s}_i &amp; = \boldsymbol{I}_i \\
+&amp; -
+w_i \begin{bmatrix}
+-({y}_i - \bar{y})^2 - ({z}_i - \bar{z})^2 &amp; ({x}_i - \bar{x})({y}_i
+- \bar{y})         &amp; ({x}_i - \bar{x})({z}_i - \bar{z})         \\
+({x}_i - \bar{x})({y}_i - \bar{y})         &amp; -({x}_i - \bar{x})^2 -
+({z}_i - \bar{z})^2 &amp;  ({y}_i - \bar{y})({z}_i - \bar{z})        \\
+({x}_i - \bar{x})({z}_i - \bar{z})         &amp; ({y}_i - \bar{y})({z}_i
+- \bar{z})         &amp; -({x}_i - \bar{x})^2 - ({y}_i - \bar{y})^2 \\
+\end{bmatrix} \\
+&amp; =
+\boldsymbol{I}_i \\
+&amp; -
+w_i \begin{bmatrix}
+({x}_i - \bar{x})^2     &amp; ({x}_i - \bar{x})({y}_i - \bar{y}) &amp;
+({x}_i - \bar{x})({z}_i - \bar{z}) \\
+({x}_i - \bar{x})({y}_i - \bar{y}) &amp; ({y}_i - \bar{y})^2     &amp;
+({y}_i - \bar{y})({z}_i - \bar{z}) \\
+({x}_i - \bar{x})({z}_i - \bar{z}) &amp; ({y}_i - \bar{y})({z}_i -
+\bar{z}) &amp; ({z}_i - \bar{z})^2     \\
+\end{bmatrix} \\
+&amp; -
+w_i \begin{bmatrix}
+-({x}_i - \bar{x})^2 - ({y}_i - \bar{y})^2 - ({z}_i - \bar{z})^2 &amp;
+0                               &amp; 0                              \\
+0                               &amp; -({x}_i - \bar{x})^2 - ({y}_i -
+\bar{y})^2 - ({z}_i - \bar{z})^2 &amp; 0                              \\
+0                               &amp;
+0                               &amp;-({x}_i - \bar{x})^2 - ({y}_i -
+\bar{y})^2 - ({z}_i - \bar{z})^2 \\
+\end{bmatrix} \\
+&amp; =
+\boldsymbol{I}_i
+-
+w_i \left( \boldsymbol{Q}_i - \mathrm{tr}(\boldsymbol{Q}_i)
+\boldsymbol{1}_3 \right)
+\end{align}
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{1}_3\)</span> is the 3
+⨉ 3 identity matrix. Therefore</p>
+<p><span class="math display">\[
+\boxed{
+\boldsymbol{I} = \sum_{i=1}^{n} \left( \boldsymbol{I}_i
+-
+w_i \boldsymbol{M}_i \right)
+}
+\]</span> where</p>
+<p><span class="math display">\[
+\boxed{
+\boldsymbol{M}_i = \boldsymbol{Q}_i - \mathrm{tr}(\boldsymbol{Q}_i)
+\boldsymbol{1}_3
+}
+\]</span></p>
+<p>The corresponding <code>R</code> code is</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>  r<span class="sc">$</span>inertia <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(<span class="st">`</span><span class="at">+</span><span class="st">`</span>, <span class="fu">Map</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>    <span class="at">f  =</span> <span class="cf">function</span>(v) {</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>      d <span class="ot">&lt;-</span> r<span class="sc">$</span>center_mass <span class="sc">-</span> v<span class="sc">$</span>center_mass</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>      M <span class="ot">&lt;-</span> <span class="fu">outer</span>(d, d) <span class="sc">-</span> <span class="fu">sum</span>(d<span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> <span class="fu">diag</span>(<span class="dv">3</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>      <span class="cf">if</span> (v<span class="sc">$</span>point) <span class="sc">-</span>v<span class="sc">$</span>mass <span class="sc">*</span> M <span class="cf">else</span> v<span class="sc">$</span>inertia <span class="sc">-</span> v<span class="sc">$</span>mass <span class="sc">*</span> M</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>    },</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>    vl</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>  ))</span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="mass-property-uncertainties" class="section level2">
+<h2>Mass Property Uncertainties</h2>
+<div id="mass-uncertainty" class="section level3">
+<h3>Mass Uncertainty</h3>
+<p>The mass uncertainty equation is suitable as is.</p>
+<p><span class="math display">\[
+\boxed{
+\sigma_w = \sqrt{ \sum_{i=1}^n {{\sigma_w}_i}^2 }
+}
+\]</span></p>
+<p>The corresponding <code>R</code> code is</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>  r<span class="sc">$</span>sigma_mass <span class="ot">=</span> <span class="fu">sqrt</span>(<span class="fu">Reduce</span>(<span class="st">`</span><span class="at">+</span><span class="st">`</span>, <span class="fu">Map</span>(<span class="at">f =</span> <span class="cf">function</span>(v) v<span class="sc">$</span>sigma_mass<span class="sc">^</span><span class="dv">2</span>, vl)))</span></code></pre></div>
+</div>
+<div id="center-of-mass-uncertainty" class="section level3">
+<h3>Center of Mass Uncertainty</h3>
+<p><span class="math display">\[
+\begin{align}
+\sigma_x &amp; =
+  \sqrt{ \sum_{i=1}^n \left\{ (w_i {{\sigma_y}}_i)^2 + [{\sigma_w}_i
+({y}_i - \bar{y})]^2 \right\} }
+  \bigg/ \sum_{i=1}^{n}w_i \\
+\sigma_y &amp; =
+  \sqrt{ \sum_{i=1}^n \left\{ (w_i {{\sigma_y}}_i)^2 + [{\sigma_w}_i
+({y}_i - \bar{y})]^2 \right\} }
+\bigg/ \sum_{i=1}^{n}w_i \\
+\sigma_z &amp; =
+  \sqrt{ \sum_{i=1}^n \left\{ (w_i {{\sigma_z}}_i)^2 + [{\sigma_w}_i
+({z}_i - \bar{z})]^2 \right\} }
+\bigg/ \sum_{i=1}^{n}w_i \\
+\end{align}
+\]</span></p>
+<p>As before, we create a 3-vector for center of mass uncertainties.
+Let</p>
+<p><span class="math display">\[
+\boxed{
+\begin{align}
+\boldsymbol{\sigma_c} &amp; = (\sigma_x \quad \sigma_y \quad \sigma_z)^T
+\\
+{\boldsymbol{\sigma_c}}_i &amp; = ({\sigma_x}_i \quad {\sigma_y}_i \quad
+{\sigma_z}_i)^T
+\end{align}
+}
+\]</span></p>
+<p>If we construe (as <code>R</code> does) squaring and taking square
+roots of vectors element-wise, then</p>
+<p><span class="math display">\[
+\boxed{
+\boldsymbol{\sigma_c} = \frac{1}{w}
+  \sqrt{ \sum_{i=1}^n \left\{ (w_i {{\boldsymbol{\sigma_c}}}_i)^2 +
+[{\sigma_w}_i ({\boldsymbol{c}}_i - \bar{\boldsymbol{c}})]^2 \right\}}
+}
+\]</span></p>
+<p>The corresponding <code>R</code> code is</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>  r<span class="sc">$</span>sigma_center_mass <span class="ot">=</span> <span class="fu">sqrt</span>(<span class="fu">Reduce</span>(<span class="st">`</span><span class="at">+</span><span class="st">`</span>, <span class="fu">Map</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>    <span class="at">f =</span> <span class="cf">function</span>(v) {</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>      (v<span class="sc">$</span>mass <span class="sc">*</span> v<span class="sc">$</span>sigma_center_mass)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>        (v<span class="sc">$</span>sigma_mass <span class="sc">*</span> (v<span class="sc">$</span>center_mass <span class="sc">-</span> r<span class="sc">$</span>center_mass))<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>    },</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>    vl</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  ))) <span class="sc">/</span> r<span class="sc">$</span>mass</span></code></pre></div>
+</div>
+<div id="inertia-tensor-uncertainty" class="section level3">
+<h3>Inertia Tensor Uncertainty</h3>
+<div id="moments-of-inertia-uncertainties" class="section level4">
+<h4>Moments of Inertia Uncertainties</h4>
+<p><span class="math display">\[
+\begin{align}
+\sigma_{I_{XX}} &amp; = \sqrt{ \sum_{i=1}^n \big\{
+  \sigma_{{I_{XX}}_i}^2 + \big[ 2 w_i ({y}_i - \bar{y}) \sigma_{{y}_i}
+\big]^2 + \big[ 2 w_i ({z}_i - \bar{z}) \sigma_{{z}_i} \big]^2 + \big[
+\big(({y}_i - \bar{y})^2 + ({z}_i - \bar{z})^2 \big)\sigma_{w_i}\big]^2
+\big\} }
+\\
+\sigma_{I_{YY}} &amp; = \sqrt{ \sum_{i=1}^n \big\{
+  \sigma_{{I_{YY}}_i}^2 + \big[ 2 w_i ({x}_i - \bar{x}) \sigma_{{x}_i}
+\big]^2 + \big[ 2 w_i ({z}_i - \bar{z}) \sigma_{{z}_i} \big]^2 + \big[
+\big(({x}_i - \bar{x})^2 + ({z}_i - \bar{z})^2 \big)\sigma_{w_i}\big]^2
+\big\} }
+\\
+\sigma_{I_{ZZ}} &amp; = \sqrt{ \sum_{i=1}^n \big\{
+  \sigma_{{I_{ZZ}}_i}^2 + \big[ 2 w_i ({x}_i - \bar{x}) \sigma_{{x}_i}
+\big]^2 + \big[ 2 w_i ({y}_i - \bar{y}) \sigma_{{y}_i} \big]^2 + \big[
+\big(({x}_i - \bar{x})^2 + ({y}_i - \bar{y})^2 \big)\sigma_{w_i}\big]^2
+\big\} }
+\\
+\end{align}
+\]</span></p>
+</div>
+<div id="products-of-inertia-uncertainties" class="section level4">
+<h4>Products of Inertia Uncertainties</h4>
+<p><span class="math display">\[
+\begin{align}
+\sigma_{I_{XY}} &amp; = \sqrt{ \sum_{i=1}^n \big\{
+  \sigma_{{I_{XY}}_i}^2 + \big[ ({x}_i - \bar{x}) w_i
+\sigma_{{y}_i}\big]^2 + \big[  ({x}_i - \bar{x})({y}_i -
+\bar{y})\sigma_{w_i} \big]^2 + \big[ ({y}_i - \bar{y})  w_i
+\sigma_{{x}_i} \big]^2 \big\} }
+\\
+\sigma_{I_{XZ}} &amp; = \sqrt{ \sum_{i=1}^n \big\{
+  \sigma_{{I_{XZ}}_i}^2 + \big[ ({x}_i - \bar{x}) w_i
+\sigma_{{z}_i}\big]^2 + \big[  ({x}_i - \bar{x})({z}_i -
+\bar{z})\sigma_{w_i} \big]^2 + \big[ ({z}_i - \bar{z})  w_i
+\sigma_{{x}_i} \big]^2 \big\} }
+\\
+\sigma_{I_{YZ}} &amp; = \sqrt{ \sum_{i=1}^n \big\{
+  \sigma_{{I_{YZ}}_i}^2 + \big[ ({y}_i - \bar{y}) w_i
+\sigma_{{z}_i}\big]^2 + \big[  ({y}_i - \bar{y})({z}_i -
+\bar{z})\sigma_{w_i} \big]^2 + \big[ ({z}_i - \bar{z})  w_i
+\sigma_{{y}_i} \big]^2 \big\} }
+\\
+\end{align}
+\]</span></p>
+</div>
+<div id="matrix-formulation-1" class="section level4">
+<h4>Matrix Formulation</h4>
+<p>Let</p>
+<p><span class="math display">\[
+\boxed{
+\begin{align}
+\boldsymbol{d}_i &amp; = (({x}_i - \bar{x}) \quad ({y}_i - \bar{y})
+\quad ({z}_i - \bar{z}))^T \\
+{\boldsymbol{\sigma_c}}_i &amp; = ({\sigma_x}_i \quad {\sigma_y}_i \quad
+{\sigma_z}_i)^T \\
+\boldsymbol{P}_i &amp; = \boldsymbol{d}_i {\boldsymbol{\sigma_c}}_i^T \\
+\boldsymbol{Q}_i &amp; = \boldsymbol{d}_i {\boldsymbol{d}_i}^T
+\end{align}
+}
+\]</span></p>
+<p>Then</p>
+<p><span class="math display">\[
+\begin{align}
+\boldsymbol{P}_i &amp; =
+\begin{bmatrix}
+(x_i - \bar{x})\sigma_{x_i} &amp;({x}_i - \bar{x})\sigma_{y_i}
+&amp;({x}_i - \bar{x})\sigma_{z_i} \\
+({y}_i - \bar{y})\sigma_{x_i} &amp; ({y}_i - \bar{y})\sigma_{y_i} &amp;
+({y}_i - \bar{y})\sigma_{z_i} \\
+({z}_i - \bar{z})\sigma_{x_i} &amp; ({z}_i - \bar{z})\sigma_{y_i} &amp;
+({z}_i - \bar{z})\sigma_{z_i} \\
+\end{bmatrix}
+\\
+\\
+\boldsymbol{Q}_i &amp; =
+\begin{bmatrix}
+(x_i - \bar{x})^2 &amp;({x}_i - \bar{x})({y}_i - \bar{y}) &amp;({x}_i -
+\bar{x})({z}_i - \bar{z}) \\
+({y}_i - \bar{y})(x_i - \bar{x}) &amp; ({y}_i - \bar{y})^2 &amp; ({y}_i
+- \bar{y})({z}_i - \bar{z}) \\
+({z}_i - \bar{z})(x_i - \bar{x}) &amp; ({z}_i - \bar{z})({y}_i -
+\bar{y}) &amp; ({z}_i - \bar{z})^2 \\
+\end{bmatrix}
+\end{align}
+\]</span></p>
+<p>Let <span class="math inline">\(\boldsymbol{s}_i^2\)</span> be the
+matrix of inertia tensor uncertainty summands in the standard formulas
+for a given subcomponent <span class="math inline">\(i\)</span> above.
+That is,</p>
+<p><span class="math display">\[
+\boldsymbol{\sigma_I}^2 = \sum_{i=1}^{} \boldsymbol{s}_i^2
+\]</span></p>
+<p>Let <span class="math inline">\({p_X}_i\)</span>, <span class="math inline">\({p_Y}_i\)</span>, and <span class="math inline">\({p_Z}_i\)</span> be the respective diagonal
+elements of <span class="math inline">\(P_i\)</span>. Let <span class="math inline">\(\boldsymbol{1}_3\)</span> be the 3 ⨉ 3 identity
+matrix. If we interpret squaring a matrix as the Hadamard (element-wise)
+product with itself, then <span class="math display">\[
+\begin{align}
+\boldsymbol{s}_i^2 &amp; = {\boldsymbol{\sigma_I}}_i^2 \\
+&amp; +
+\begin{bmatrix}
+2 w_i ({y}_i - \bar{y}) \sigma_{y_i} &amp;   w_i({x}_i - \bar{x})
+\sigma_{y_i} &amp;   w_i({x}_i - \bar{x}) \sigma_{z_i} \\
+  w_i({x}_i - \bar{x}) \sigma_{y_i} &amp; 2 w_i({x}_i - \bar{x})
+\sigma_{x_i} &amp;   w_i ({y}_i - \bar{y}) \sigma_{z_i} \\
+  w_i({x}_i - \bar{x}) \sigma_{z_i} &amp;   w_i ({y}_i - \bar{y})
+\sigma_{z_i} &amp; 2 w_i({x}_i - \bar{x}) \sigma_{x_i}
+\end{bmatrix}^2 \\
+&amp; +
+\begin{bmatrix}
+2 w_i ({z}_i - \bar{z}) \sigma_{z_i} &amp;   w_i ({y}_i - \bar{y})
+\sigma_{x_i} &amp;   w_i ({z}_i - \bar{z}) \sigma_{x_i} \\
+  w_i ({y}_i - \bar{y}) \sigma_{x_i} &amp; 2 w_i ({z}_i - \bar{z})
+\sigma_{z_i} &amp;   w_i ({z}_i - \bar{z}) \sigma_{y_i} \\
+  w_i ({z}_i - \bar{z}) \sigma_{x_i} &amp;   w_i ({z}_i - \bar{z})
+\sigma_{y_i} &amp; 2 w_i ({y}_i - \bar{y}) \sigma_{y_i}
+\end{bmatrix}^2 \\
+&amp; +
+\begin{bmatrix}
+(({y}_i - \bar{y})^2 + ({z}_i - \bar{z})^2)\sigma_{w_i} &amp;({x}_i -
+\bar{x})({y}_i - \bar{y})\sigma_{w_i} &amp;({x}_i - \bar{x})({z}_i -
+\bar{z})\sigma_{w_i} \\
+({y}_i - \bar{y})(x_i - \bar{x})\sigma_{w_i} &amp; ((x_i - \bar{x})^2 +
+({z}_i - \bar{z})^2)\sigma_{w_i} &amp; ({y}_i - \bar{y})({z}_i -
+\bar{z})\sigma_{w_i} \\
+({z}_i - \bar{z})(x_i - \bar{x})\sigma_{w_i} &amp; ({z}_i -
+\bar{z})({y}_i - \bar{y})\sigma_{w_i} &amp; ((x_i - \bar{x})^2 + ({y}_i
+- \bar{y})^2)\sigma_{w_i} \\
+\end{bmatrix}^2 \\ \\
+&amp; = {\boldsymbol{\sigma_I}}_i^2 \\
+&amp; + w_i^2 \left(
+\boldsymbol{P}_i -
+\begin{bmatrix}
+(x_i - \bar{x})\sigma_{x_i} - 2 ({y}_i - \bar{y})\sigma_{y_i} &amp; 0
+&amp; 0 \\
+0 &amp; ({y}_i - \bar{y})\sigma_{y_i} - 2({x}_i - \bar{x})\sigma_{x_i}
+&amp; 0 \\
+0 &amp; 0 &amp; ({z}_i - \bar{z})\sigma_{y_i} - 2({x}_i -
+\bar{x})\sigma_{x_i} \\
+\end{bmatrix}
+\right) ^2 \\
+&amp; + w_i^2 \left(
+\boldsymbol{P}_i^T -
+\begin{bmatrix}
+(x_i - \bar{x})\sigma_{x_i} - 2 ({z}_i - \bar{z})\sigma_{y_i} &amp; 0
+&amp; 0 \\
+0 &amp; ({y}_i - \bar{y})\sigma_{y_i} - 2 ({z}_i - \bar{z})\sigma_{z_i}
+&amp; 0 \\
+0 &amp; 0 &amp; ({z}_i - \bar{z})\sigma_{y_i} - 2 ({y}_i -
+\bar{y})\sigma_{y_i} \\
+\end{bmatrix}
+\right) ^2 \\
+&amp; + \sigma_{w_i}^2 \left(
+\boldsymbol{Q}_i - \mathrm{tr}(\boldsymbol{Q}_i)\boldsymbol{1}_3
+\right)^2 \\ \\
+&amp; = {\boldsymbol{\sigma_I}}_i^2 \\
+&amp; + w_i^2 \left(
+\boldsymbol{P}_i -
+\begin{bmatrix}
+{p_X}_i - 2 {p_Y}_i &amp; 0 &amp; 0 \\
+0 &amp; {p_Y}_i - 2 {p_X}_i &amp; 0 \\
+0 &amp; 0 &amp; {p_Z}_i - 2  {p_X}_i \\
+\end{bmatrix}
+\right) ^2 \\
+&amp; + w_i^2 \left(
+\boldsymbol{P}_i^T -
+\begin{bmatrix}
+{p_X}_i - 2{p_Z}_i &amp; 0 &amp; 0 \\
+0 &amp; {p_Y}_i - 2 {p_Z}_i &amp; 0 \\
+0 &amp; 0 &amp; {p_Z}_i - 2 {p_Y}_i \\
+\end{bmatrix}
+\right) ^2 \\
+&amp; + \sigma_{w_i}^2 \left(
+\boldsymbol{Q}_i - \mathrm{tr}(\boldsymbol{Q}_i)\boldsymbol{1}_3
+\right)^2
+\end{align}
+\]</span></p>
+<p>Finally,</p>
+<p><span class="math display">\[
+\boldsymbol{\sigma_I} = \sqrt{
+\sum_{i=1}^{n} {\left\{
+{\boldsymbol{\sigma_I}}_i^2
++ w_i^2 \left(
+{{\boldsymbol{M}_1}_i}^2 + {{\boldsymbol{M}_2}_i}^2
+\right)
++ \left( \sigma_{w_i} {\boldsymbol{M}_3}_i
+\right)^2
+\right\}}
+}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\boxed{
+\begin{align}
+{\boldsymbol{M}_1}_i &amp; = \boldsymbol{P}_i -
+\begin{bmatrix}
+{p_X}_i - 2 {p_Y}_i &amp; 0 &amp; 0 \\
+0 &amp; {p_Y}_i - 2 {p_X}_i &amp; 0 \\
+0 &amp; 0 &amp; {p_Z}_i - 2  {p_X}_i \\
+\end{bmatrix} \\
+{\boldsymbol{M}_2}_i &amp; = \boldsymbol{P}_i^T -
+\begin{bmatrix}
+{p_X}_i - 2{p_Z}_i &amp; 0 &amp; 0 \\
+0 &amp; {p_Y}_i - 2 {p_Z}_i &amp; 0 \\
+0 &amp; 0 &amp; {p_Z}_i - 2 {p_Y}_i \\
+\end{bmatrix} \\
+{\boldsymbol{M}_3}_i &amp; = \boldsymbol{Q}_i -
+\mathrm{tr}(\boldsymbol{Q}_i)\boldsymbol{1}_3
+\end{align}
+}
+\]</span></p>
+<p>The corresponding <code>R</code> code is</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>  r<span class="sc">$</span>sigma_inertia <span class="ot">=</span> <span class="fu">sqrt</span>(<span class="fu">Reduce</span>(<span class="st">`</span><span class="at">+</span><span class="st">`</span>, <span class="fu">Map</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>    <span class="at">f =</span> <span class="cf">function</span>(v) {</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>      d <span class="ot">&lt;-</span> v<span class="sc">$</span>center_mass <span class="sc">-</span> r<span class="sc">$</span>center_mass</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>      P <span class="ot">&lt;-</span> <span class="fu">outer</span>(d, v<span class="sc">$</span>sigma_center_mass)</span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>      p <span class="ot">&lt;-</span> <span class="fu">as.list</span>(<span class="fu">diag</span>(P))</span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>      M1 <span class="ot">&lt;-</span>   P  <span class="sc">-</span> <span class="fu">diag</span>(<span class="fu">c</span>(p<span class="sc">$</span>x <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> p<span class="sc">$</span>y, p<span class="sc">$</span>y <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> p<span class="sc">$</span>x, p<span class="sc">$</span>z <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> p<span class="sc">$</span>x))</span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>      M2 <span class="ot">&lt;-</span> <span class="fu">t</span>(P) <span class="sc">-</span> <span class="fu">diag</span>(<span class="fu">c</span>(p<span class="sc">$</span>x <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> p<span class="sc">$</span>z, p<span class="sc">$</span>y <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> p<span class="sc">$</span>z, p<span class="sc">$</span>z <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> p<span class="sc">$</span>y))</span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>      M3 <span class="ot">&lt;-</span> <span class="fu">outer</span>(d, d) <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">diag</span>(d<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">*</span> <span class="fu">diag</span>(<span class="dv">3</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a>      M4 <span class="ot">&lt;-</span> v<span class="sc">$</span>mass<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> (M1<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> M2<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> (v<span class="sc">$</span>sigma_mass <span class="sc">*</span> M3)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a>      <span class="cf">if</span> (v<span class="sc">$</span>point) M4 <span class="cf">else</span> v<span class="sc">$</span>sigma_inertia<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> M4</span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a>    },</span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a>    vl</span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a>  )))</span></code></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div id="testing-and-validation" class="section level1">
+<h1>Testing and Validation</h1>
+<div id="comparison-with-independently-calculated-results" class="section level2">
+<h2>Comparison With Independently-Calculated Results</h2>
+<p>In this section we will calculate the results for the SAWE example
+step by step and compare them with the package results. The inputs
+are:</p>
+<pre><code>#&gt;         id  mass    Cx    Cy    Cz     Ixx     Iyy      Izz    Ixy      Ixz
+#&gt; 1   Widget 57.83 121.2  0.04 -0.16 7258.90 8607.02 10453.40 834.44 -1198.38
+#&gt; 2 2nd Part 16.80  70.9 -0.95  0.46   65.07 1124.65  1078.82  76.01   202.83
+#&gt;        Iyz sigma_mass sigma_Cx sigma_Cy sigma_Cz sigma_Ixx sigma_Iyy sigma_Izz
+#&gt; 1 -1066.58     1.2416   0.2764   0.2085   0.0669  386.9233  171.4792  414.5547
+#&gt; 2    13.62     1.7308   0.6234   0.5173   0.1405   12.4687  109.1324  108.5481
+#&gt;   sigma_Ixy sigma_Ixz sigma_Iyz Ipoint POIconv
+#&gt; 1 1440.5402  344.6237  124.6860  FALSE       +
+#&gt; 2   55.8879  212.1241   11.5408  FALSE       +</code></pre>
+<p>Our computed result is</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>sawe_result <span class="ot">&lt;-</span> <span class="fu">rollup_mass_props_and_unc</span>(sawe_tree, sawe_table)[<span class="dv">3</span>, ]</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>sawe_result</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="co">#&gt;         id  mass       Cx         Cy          Cz      Ixx      Iyy      Izz</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="co">#&gt; 3 Combined 74.63 109.8769 -0.1828594 -0.02043146 7341.733 42673.75 44482.05</span></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="co">#&gt;        Ixy       Ixz       Iyz sigma_mass sigma_Cx  sigma_Cy   sigma_Cz</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="co">#&gt; 3 1558.714 -1401.534 -1060.951    2.13008  0.95821 0.1999847 0.06178402</span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="co">#&gt;   sigma_Ixx sigma_Iyy sigma_Izz sigma_Ixy sigma_Ixz sigma_Iyz Ipoint POIconv</span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="co">#&gt; 3  387.4017  2789.313  2815.326  1488.095  418.6048  125.3175  FALSE       +</span></span></code></pre></div>
+<div id="mass-1" class="section level3">
+<h3>Mass</h3>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>mass <span class="ot">&lt;-</span> <span class="fu">sum</span>(sawe_input<span class="sc">$</span>mass)</span></code></pre></div>
+<p>The independently-calculated mass is</p>
+<pre><code>#&gt; [1] 74.63</code></pre>
+<p>This agrees with the computed result.</p>
+</div>
+<div id="center-of-mass-1" class="section level3">
+<h3>Center of Mass</h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">apply</span>(sawe_input<span class="sc">$</span>mass <span class="sc">/</span> mass <span class="sc">*</span> sawe_input[, <span class="fu">c</span>(<span class="st">&quot;Cx&quot;</span>, <span class="st">&quot;Cy&quot;</span>, <span class="st">&quot;Cz&quot;</span>)], <span class="dv">2</span>, sum)</span></code></pre></div>
+<p>The independently-calculated center of mass is</p>
+<pre><code>#&gt;           Cx           Cy           Cz 
+#&gt; 109.87693957  -0.18285944  -0.02043146</code></pre>
+<p>This agrees with the computed result.</p>
+</div>
+<div id="moments-of-inertia-1" class="section level3">
+<h3>Moments of Inertia</h3>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>moi <span class="ot">&lt;-</span> <span class="cf">function</span>(I, v1, v2, m, c1, c2) {</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>  I <span class="sc">+</span> m <span class="sc">*</span> ((v1<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> v2<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> (c1<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> c2<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>}</span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>MOI <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>  <span class="at">Ixx =</span> <span class="fu">sum</span>(<span class="fu">moi</span>(sawe_input<span class="sc">$</span>Ixx, sawe_input<span class="sc">$</span>Cy, sawe_input<span class="sc">$</span>Cz, sawe_input<span class="sc">$</span>mass, C[<span class="st">&quot;Cy&quot;</span>], C[<span class="st">&quot;Cz&quot;</span>])),</span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>  <span class="at">Iyy =</span> <span class="fu">sum</span>(<span class="fu">moi</span>(sawe_input<span class="sc">$</span>Iyy, sawe_input<span class="sc">$</span>Cx, sawe_input<span class="sc">$</span>Cz, sawe_input<span class="sc">$</span>mass, C[<span class="st">&quot;Cx&quot;</span>], C[<span class="st">&quot;Cz&quot;</span>])),</span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>  <span class="at">Izz =</span> <span class="fu">sum</span>(<span class="fu">moi</span>(sawe_input<span class="sc">$</span>Izz, sawe_input<span class="sc">$</span>Cx, sawe_input<span class="sc">$</span>Cy, sawe_input<span class="sc">$</span>mass, C[<span class="st">&quot;Cx&quot;</span>], C[<span class="st">&quot;Cy&quot;</span>]))</span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>)</span></code></pre></div>
+<p>The independently-calculated moments of inertia are</p>
+<pre><code>#&gt;       Ixx       Iyy       Izz 
+#&gt;  7341.733 42673.747 44482.052</code></pre>
+<p>This agrees with the computed result.</p>
+</div>
+<div id="products-of-inertia-1" class="section level3">
+<h3>Products of Inertia</h3>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>poi <span class="ot">&lt;-</span> <span class="cf">function</span>(I, v1, v2, m, c1, c2) {</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>  I <span class="sc">+</span> m <span class="sc">*</span> (v1 <span class="sc">*</span> v2 <span class="sc">-</span> c1 <span class="sc">*</span> c2)</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>}</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>POI <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>  <span class="at">Ixy =</span> <span class="fu">sum</span>(<span class="fu">poi</span>(sawe_input<span class="sc">$</span>Ixy, sawe_input<span class="sc">$</span>Cx, sawe_input<span class="sc">$</span>Cy, sawe_input<span class="sc">$</span>mass, C[<span class="st">&quot;Cx&quot;</span>], C[<span class="st">&quot;Cy&quot;</span>])),</span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>  <span class="at">Ixz =</span> <span class="fu">sum</span>(<span class="fu">poi</span>(sawe_input<span class="sc">$</span>Ixz, sawe_input<span class="sc">$</span>Cx, sawe_input<span class="sc">$</span>Cz, sawe_input<span class="sc">$</span>mass, C[<span class="st">&quot;Cx&quot;</span>], C[<span class="st">&quot;Cz&quot;</span>])),</span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>  <span class="at">Iyz =</span> <span class="fu">sum</span>(<span class="fu">poi</span>(sawe_input<span class="sc">$</span>Iyz, sawe_input<span class="sc">$</span>Cy, sawe_input<span class="sc">$</span>Cz, sawe_input<span class="sc">$</span>mass, C[<span class="st">&quot;Cy&quot;</span>], C[<span class="st">&quot;Cz&quot;</span>]))</span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>)</span></code></pre></div>
+<p>The independently-calculated products of inertia are</p>
+<pre><code>#&gt;       Ixy       Ixz       Iyz 
+#&gt;  1558.714 -1401.534 -1060.951</code></pre>
+<p>This agrees with the computed result.</p>
+</div>
+<div id="mass-uncertainty-1" class="section level3">
+<h3>Mass Uncertainty</h3>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>sigma_mass <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(sawe_input<span class="sc">$</span>sigma_mass<span class="sc">^</span><span class="dv">2</span>))</span></code></pre></div>
+<p>The independently-calculated mass uncertainty is</p>
+<pre><code>#&gt; [1] 2.13008</code></pre>
+<p>This agrees with the computed result.</p>
+</div>
+<div id="center-of-mass-uncertainty-1" class="section level3">
+<h3>Center of Mass Uncertainty</h3>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>sigma_cm <span class="ot">&lt;-</span> <span class="cf">function</span>(m, sigma_v, sigma_m, v, c) {</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>  (m <span class="sc">*</span> sigma_v)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (sigma_m <span class="sc">*</span> (v <span class="sc">-</span> c))<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>}</span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>sigma_C <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>  <span class="at">sigma_Cx =</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(<span class="fu">sigma_cm</span>(sawe_input<span class="sc">$</span>mass, sawe_input<span class="sc">$</span>sigma_Cx, sawe_input<span class="sc">$</span>sigma_mass, sawe_input<span class="sc">$</span>Cx, C[<span class="st">&quot;Cx&quot;</span>]))) <span class="sc">/</span> mass,</span>
+<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a>  <span class="at">sigma_Cy =</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(<span class="fu">sigma_cm</span>(sawe_input<span class="sc">$</span>mass, sawe_input<span class="sc">$</span>sigma_Cy, sawe_input<span class="sc">$</span>sigma_mass, sawe_input<span class="sc">$</span>Cy, C[<span class="st">&quot;Cy&quot;</span>]))) <span class="sc">/</span> mass,</span>
+<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a>  <span class="at">sigma_Cz =</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(<span class="fu">sigma_cm</span>(sawe_input<span class="sc">$</span>mass, sawe_input<span class="sc">$</span>sigma_Cz, sawe_input<span class="sc">$</span>sigma_mass, sawe_input<span class="sc">$</span>Cz, C[<span class="st">&quot;Cz&quot;</span>]))) <span class="sc">/</span> mass</span>
+<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a>)</span></code></pre></div>
+<p>The independently-calculated center of mass uncertainties are</p>
+<pre><code>#&gt;   sigma_Cx   sigma_Cy   sigma_Cz 
+#&gt; 0.95821004 0.19998470 0.06178402</code></pre>
+<p>This agrees with the computed result.</p>
+</div>
+<div id="moments-of-inertia-uncertainties-1" class="section level3">
+<h3>Moments of Inertia Uncertainties</h3>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>sigma_moi <span class="ot">&lt;-</span> <span class="cf">function</span>(sigma_I, mass, sigma_mass, v1, v2, c1, c2, sigma_v1, sigma_v2) {</span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>  sigma_I<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span></span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>    (<span class="dv">2</span> <span class="sc">*</span> mass <span class="sc">*</span> (v1 <span class="sc">-</span> c1) <span class="sc">*</span> sigma_v1)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span></span>
+<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a>    (<span class="dv">2</span> <span class="sc">*</span> mass <span class="sc">*</span> (v2 <span class="sc">-</span> c2) <span class="sc">*</span> sigma_v2)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span></span>
+<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a>    (((v1 <span class="sc">-</span> c1)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (v2 <span class="sc">-</span> c2)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> sigma_mass)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a>}</span>
+<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a>sigma_MOI <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb27-8"><a href="#cb27-8" tabindex="-1"></a>  <span class="at">sigma_Ixx =</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(<span class="fu">sigma_moi</span>(sawe_input<span class="sc">$</span>sigma_Ixx, sawe_input<span class="sc">$</span>mass, sawe_input<span class="sc">$</span>sigma_mass, sawe_input<span class="sc">$</span>Cy,</span>
+<span id="cb27-9"><a href="#cb27-9" tabindex="-1"></a>                                  sawe_input<span class="sc">$</span>Cz, C[<span class="st">&quot;Cy&quot;</span>], C[<span class="st">&quot;Cz&quot;</span>], sawe_input<span class="sc">$</span>sigma_Cy, sawe_input<span class="sc">$</span>sigma_Cz))),</span>
+<span id="cb27-10"><a href="#cb27-10" tabindex="-1"></a>  <span class="at">sigma_Iyy =</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(<span class="fu">sigma_moi</span>(sawe_input<span class="sc">$</span>sigma_Iyy, sawe_input<span class="sc">$</span>mass, sawe_input<span class="sc">$</span>sigma_mass, sawe_input<span class="sc">$</span>Cx,</span>
+<span id="cb27-11"><a href="#cb27-11" tabindex="-1"></a>                                  sawe_input<span class="sc">$</span>Cz, C[<span class="st">&quot;Cx&quot;</span>], C[<span class="st">&quot;Cz&quot;</span>], sawe_input<span class="sc">$</span>sigma_Cx, sawe_input<span class="sc">$</span>sigma_Cz))),</span>
+<span id="cb27-12"><a href="#cb27-12" tabindex="-1"></a>  <span class="at">sigma_Izz =</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(<span class="fu">sigma_moi</span>(sawe_input<span class="sc">$</span>sigma_Izz, sawe_input<span class="sc">$</span>mass, sawe_input<span class="sc">$</span>sigma_mass, sawe_input<span class="sc">$</span>Cx,</span>
+<span id="cb27-13"><a href="#cb27-13" tabindex="-1"></a>                                  sawe_input<span class="sc">$</span>Cy, C[<span class="st">&quot;Cx&quot;</span>], C[<span class="st">&quot;Cy&quot;</span>], sawe_input<span class="sc">$</span>sigma_Cx, sawe_input<span class="sc">$</span>sigma_Cy)))</span>
+<span id="cb27-14"><a href="#cb27-14" tabindex="-1"></a>)</span></code></pre></div>
+<p>The independently-calculated moments of inertia uncertainties are</p>
+<pre><code>#&gt; sigma_Ixx sigma_Iyy sigma_Izz 
+#&gt;  387.4017 2789.3133 2815.3260</code></pre>
+<p>This agrees with the computed result.</p>
+</div>
+<div id="products-of-inertia-uncertainties-1" class="section level3">
+<h3>Products of Inertia Uncertainties</h3>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a>sigma_poi <span class="ot">&lt;-</span> <span class="cf">function</span>(sigma_I, mass, sigma_mass, v1, v2, c1, c2, sigma_v1, sigma_v2) {</span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>  sigma_I<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span></span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>    ((v1 <span class="sc">-</span> c1) <span class="sc">*</span> mass <span class="sc">*</span> sigma_v2)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span></span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>    ((v1 <span class="sc">-</span> c1) <span class="sc">*</span> (v2 <span class="sc">-</span> c2) <span class="sc">*</span> sigma_mass)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span></span>
+<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>    ((v2 <span class="sc">-</span> c2) <span class="sc">*</span> mass <span class="sc">*</span> sigma_v1)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a>}</span>
+<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a>sigma_POI <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a>  <span class="at">sigma_Ixy =</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(<span class="fu">sigma_poi</span>(sawe_input<span class="sc">$</span>sigma_Ixy, sawe_input<span class="sc">$</span>mass, sawe_input<span class="sc">$</span>sigma_mass, sawe_input<span class="sc">$</span>Cx,</span>
+<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a>                                  sawe_input<span class="sc">$</span>Cy, C[<span class="st">&quot;Cx&quot;</span>], C[<span class="st">&quot;Cy&quot;</span>], sawe_input<span class="sc">$</span>sigma_Cx, sawe_input<span class="sc">$</span>sigma_Cy))),</span>
+<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a>  <span class="at">sigma_Ixz =</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(<span class="fu">sigma_poi</span>(sawe_input<span class="sc">$</span>sigma_Ixz, sawe_input<span class="sc">$</span>mass, sawe_input<span class="sc">$</span>sigma_mass, sawe_input<span class="sc">$</span>Cx,</span>
+<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a>                                  sawe_input<span class="sc">$</span>Cz, C[<span class="st">&quot;Cx&quot;</span>], C[<span class="st">&quot;Cz&quot;</span>], sawe_input<span class="sc">$</span>sigma_Cx, sawe_input<span class="sc">$</span>sigma_Cz))),</span>
+<span id="cb29-12"><a href="#cb29-12" tabindex="-1"></a>  <span class="at">sigma_Iyz =</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(<span class="fu">sigma_poi</span>(sawe_input<span class="sc">$</span>sigma_Iyz, sawe_input<span class="sc">$</span>mass, sawe_input<span class="sc">$</span>sigma_mass, sawe_input<span class="sc">$</span>Cy,</span>
+<span id="cb29-13"><a href="#cb29-13" tabindex="-1"></a>                                  sawe_input<span class="sc">$</span>Cz, C[<span class="st">&quot;Cy&quot;</span>], C[<span class="st">&quot;Cz&quot;</span>], sawe_input<span class="sc">$</span>sigma_Cy, sawe_input<span class="sc">$</span>sigma_Cz)))</span>
+<span id="cb29-14"><a href="#cb29-14" tabindex="-1"></a>)</span></code></pre></div>
+<p>The independently-calculated products of inertia uncertainties
+are</p>
+<pre><code>#&gt; sigma_Ixy sigma_Ixz sigma_Iyz 
+#&gt; 1488.0948  418.6048  125.3175</code></pre>
+<p>This agrees with the computed result.</p>
+</div>
+</div>
+<div id="comparison-with-published-results" class="section level2">
+<h2>Comparison With Published Results</h2>
+<p>The SAWE reference provides computed results for their example. These
+results match those within a tolerance of 0.2%. The small differences
+are likely because their actual input values were not identical to the
+truncated values published in the article.</p>
+</div>
+</div>
+<div id="performance-evaluation" class="section level1">
+<h1>Performance Evaluation</h1>
+<p><code>mp_table</code> and <code>mp_tree</code> are a synthesized data
+set representing a tree of depth 7 with 1765 vertices and 1764 edges.
+1267 vertices are leaves, the remaining 498 are non-leaves. Rolling up
+mass properties and uncertainties for this data set combines 35280 input
+values to produce 9960 output values. Mass properties alone halves those
+values.</p>
+<p>Benchmarks were taken on a platform with these CPU
+characteristics:</p>
+<pre><code>Python Version: 3.12.7.final.0 (64 bit)
+Cpuinfo Version: 9.0.0
+Vendor ID Raw: 
+Hardware Raw: 
+Brand Raw: Apple M3
+Hz Advertised Friendly: 
+Hz Actual Friendly: 2.4000 GHz
+Hz Advertised: 
+Hz Actual: (2400000000, 0)
+Arch: ARM_8
+Bits: 64
+Count: 8
+Arch String Raw: arm64
+L1 Data Cache Size: 
+L1 Instruction Cache Size: 
+L2 Cache Size: 
+L2 Cache Line Size: 
+L2 Cache Associativity: 
+L3 Cache Size: 
+Stepping: 
+Model: 
+Family: 6
+Processor Type: 
+Flags: acpi, aes, apic, clfsh, cmov, cx16, cx8, de, ds, dscpl, dtse64, est, fpu, fxsr, htt, mca, mce, mmx, mon, msr, mtrr, pae, pat, pbe, pclmulqdq, pdcm, pge, pse, pse36, seglim64, sep, ss, sse, sse2, sse3, sse4.1, sse4.2, ssse3, tm, tm2, tpr, tsc, vme, vmx</code></pre>
+<p>Benchmark results for rollup of mass properties and uncertainties
+were taken with and without input validation:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="fu">benchmark</span>(<span class="st">&#39;mp + unc no validation&#39;</span> <span class="ot">=</span> <span class="fu">rollup_mass_props_and_unc_fast</span>(mp_tree, mp_table),</span>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>          <span class="st">&#39;mp + unc    validation&#39;</span> <span class="ot">=</span> <span class="fu">rollup_mass_props_and_unc</span>(mp_tree, mp_table),</span>
+<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a>          <span class="st">&#39;mp       no validation&#39;</span> <span class="ot">=</span> <span class="fu">rollup_mass_props_fast</span>(mp_tree, mp_table),</span>
+<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a>          <span class="st">&#39;mp          validation&#39;</span> <span class="ot">=</span> <span class="fu">rollup_mass_props</span>(mp_tree, mp_table),</span>
+<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a>          <span class="at">replications =</span> <span class="dv">1</span>,</span>
+<span id="cb32-6"><a href="#cb32-6" tabindex="-1"></a>          <span class="at">columns =</span> <span class="fu">c</span>(<span class="st">&quot;test&quot;</span>, <span class="st">&quot;replications&quot;</span>, <span class="st">&quot;elapsed&quot;</span>, <span class="st">&quot;user.self&quot;</span>, <span class="st">&quot;sys.self&quot;</span>)</span>
+<span id="cb32-7"><a href="#cb32-7" tabindex="-1"></a>)</span></code></pre></div>
+<p>Times reported are in seconds.</p>
+<pre><code>                    test replications elapsed user.self sys.self
+4 mp          validation            1   0.840     0.824    0.016
+3 mp       no validation            1   0.604     0.594    0.011
+2 mp + unc    validation            1   1.479     1.454    0.026
+1 mp + unc no validation            1   0.993     0.974    0.019</code></pre>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-zimmerman:05:sawe" class="csl-entry">
+Zimmerman, Robert L., and John H. Nakai. 2005. <span>“Are You Sure?
+Uncertainty in Mass Properties Engineering.”</span> In <em>64th Annual
+International Conference on Mass Properties Engineering</em>, 123–60.
+Society of Allied Weight Engineers.
+</div>
+</div>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>In the negative convention, for example, <span class="math inline">\(I_{XY} \equiv -\int xy \rho \thinspace
+dV\)</span>. In the positive convention, <span class="math inline">\(I_{XY} \equiv \int xy \rho \thinspace
+dV\)</span>.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>The same algebraic result can be achieved by setting all
+moments and products of inertia to zero, but
+<code>rollup_mass_props()</code> by default ensures that all leaf items
+in the tree have mass properties that correspond to
+physically-realizable objects. A zero inertia tensor will fail this
+check. Rather than relax the check (which is essential for trustworthy
+results), a <code>TRUE</code> value for <code>Ipoint</code> indicates
+that the inertia tensor should be excluded from computations.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
