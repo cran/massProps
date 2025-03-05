@@ -145,9 +145,9 @@ set_mass_props <- function(df, id, mp) {
   values <- list(
     mass = mp$mass,
 
-    Cx = mp$center_mass[1],
-    Cy = mp$center_mass[2],
-    Cz = mp$center_mass[3],
+    Cx = mp$center_mass["x"],
+    Cy = mp$center_mass["y"],
+    Cz = mp$center_mass["z"],
 
     Ixx = m["x", "x"],
     Iyy = m["y", "y"],
@@ -169,7 +169,7 @@ set_mass_props <- function(df, id, mp) {
 
 #' Set mass properties uncertainties for a row in a data frame
 #'
-#' `set_mass_props_unc()` sets mass properties and uncertainties for a
+#' `set_mass_props_unc()` sets mass properties uncertainties for a
 #' selected row in a data frame with an `id` column.
 #'
 #' @inheritParams set_mass_props
@@ -190,9 +190,9 @@ set_mass_props_unc <- function(df, id, mpu) {
   values <- list(
     sigma_mass = mpu$sigma_mass,
 
-    sigma_Cx = mpu$sigma_center_mass[1],
-    sigma_Cy = mpu$sigma_center_mass[2],
-    sigma_Cz = mpu$sigma_center_mass[3],
+    sigma_Cx = mpu$sigma_center_mass["x"],
+    sigma_Cy = mpu$sigma_center_mass["y"],
+    sigma_Cz = mpu$sigma_center_mass["z"],
 
     sigma_Ixx = mpu$sigma_inertia["x", "x"],
     sigma_Iyy = mpu$sigma_inertia["y", "y"],
@@ -278,13 +278,13 @@ combine_mass_props <- function(mpl) {
 
   amp$center_mass <- Reduce(`+`, Map(f = function(mp) mp$mass * mp$center_mass, mpl)) / amp$mass
 
-
   # inertia tensor
 
   amp$inertia <- Reduce(`+`, Map(
     f  = function(mp) {
       d <- amp$center_mass - mp$center_mass
-      M <- outer(d, d) - sum(d^2) * diag(3)
+      Q <- outer(d, d)
+      M <- Q - sum(diag(Q)) * diag(3)
       if (mp$point) -mp$mass * M else mp$inertia - mp$mass * M
     },
     mpl
@@ -359,13 +359,15 @@ combine_mass_props_unc <- function(mpl, amp) {
       d <- v$center_mass - amp$center_mass
 
       P <- outer(d, v$sigma_center_mass)
-      p <- as.list(diag(P))
+      p <- diag(P)
 
-      M1 <-   P  - diag(c(p$x - 2 * p$y, p$y - 2 * p$x, p$z - 2 * p$x))
-      M2 <- t(P) - diag(c(p$x - 2 * p$z, p$y - 2 * p$z, p$z - 2 * p$y))
-      M3 <- outer(d, d) - sum(diag(d^2)) * diag(3)
+      Q <- outer(d, d)
 
+      M1 <-   P  - diag(p - 2 * p[c("y", "x", "x")])
+      M2 <- t(P) - diag(p - 2 * p[c("z", "z", "y")])
+      M3 <-   Q  - sum(diag(Q)) * diag(3)
       M4 <- v$mass^2 * (M1^2 + M2^2) + (v$sigma_mass * M3)^2
+
       if (v$point) M4 else v$sigma_inertia^2 + M4
     },
     mpl
@@ -758,7 +760,7 @@ validate_mass_props_and_unc <- function(mpu) {
 #' @export
 #'
 #' @examples
-#' validate_mass_props_table(mp_tree, mp_table)
+#' validate_mass_props_table(mp_tree_small, mp_table_small)
 validate_mass_props_table <- function(tree, df) {
   validate_ds(tree, df, df_get_ids, get_mass_props, validate_mass_props)
 }
@@ -778,7 +780,7 @@ validate_mass_props_table <- function(tree, df) {
 #' @export
 #'
 #' @examples
-#' validate_mass_props_and_unc_table(mp_tree, mp_table)
+#' validate_mass_props_and_unc_table(mp_tree_small, mp_table_small)
 validate_mass_props_and_unc_table <- function(tree, df) {
   validate_ds(tree, df, df_get_ids, get_mass_props_and_unc, validate_mass_props_and_unc)
 }
@@ -800,7 +802,7 @@ validate_mass_props_and_unc_table <- function(tree, df) {
 #' @export
 #'
 #' @examples
-#' rollup_mass_props(mp_tree, mp_table)[1:100, ]
+#' rollup_mass_props(mp_tree_small, mp_table_small)
 #'
 rollup_mass_props <- function(tree, df, validate_df = validate_mass_props_table, ...) {
   rollup(tree, df, update_mass_props, validate_df, ...)
@@ -825,8 +827,8 @@ rollup_mass_props <- function(tree, df, validate_df = validate_mass_props_table,
 #' @export
 #'
 #' @examples
-#' mp_ru <- rollup_mass_props(mp_tree, mp_table)
-#' rollup_mass_props_unc(mp_tree, mp_ru)[1:100, ]
+#' mp_ru <- rollup_mass_props(mp_tree_small, mp_table_small)
+#' rollup_mass_props_unc(mp_tree_small, mp_ru)
 
 rollup_mass_props_unc <- function(tree, df, validate_df = validate_mass_props_and_unc_table, ...) {
   rollup(tree, df, update_mass_props_unc, validate_df, ...)
@@ -852,7 +854,7 @@ rollup_mass_props_unc <- function(tree, df, validate_df = validate_mass_props_an
 #' @export
 #'
 #' @examples
-#' rollup_mass_props_and_unc(mp_tree, mp_table)[1:100, ]
+#' rollup_mass_props_and_unc(mp_tree_small, mp_table_small)
 rollup_mass_props_and_unc <- function(tree, df, validate_df = validate_mass_props_and_unc_table, ...) {
   rollup(tree, df, update_mass_props_and_unc, validate_df, ...)
 }
@@ -905,7 +907,7 @@ rollup_mass_props_unc_fast <- function(tree, df) {
 #'
 #' @description
 #' `rollup_mass_props_and_unc_fast()` performs the same operation as `rollup_mass_props_and_unc()`
-#' but omits input validation. It is somewhat faster than  `rollup_mass_propss_and_unc()` but should
+#' but omits input validation. It is somewhat faster than `rollup_mass_props_and_unc()` but should
 #' be used with caution and only under circumstances in which the caller assumes
 #' responsibility for validity of input. Its behavior when passed ill-formed input is unspecified.
 #'
