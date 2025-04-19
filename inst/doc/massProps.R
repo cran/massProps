@@ -5,18 +5,20 @@ knitr::opts_chunk$set(
 )
 
 ## ----setup--------------------------------------------------------------------
-library(rollupTree)
 library(massProps)
-suppressPackageStartupMessages({library(igraph)})
 
 ## -----------------------------------------------------------------------------
 test_table
 
+## ----echo = FALSE-------------------------------------------------------------
+suppressPackageStartupMessages({library(igraph)})
+
 ## -----------------------------------------------------------------------------
+library(igraph)
 test_tree
 
 ## ----echo = FALSE-------------------------------------------------------------
-plot(test_tree,layout=layout_as_tree(test_tree, 2, mode="in"), vertex.shape = 'none', edge.arrow.mode = 0)
+igraph::plot.igraph(test_tree,layout=igraph::layout_as_tree(test_tree, 2, mode="in"), vertex.shape = 'none', edge.arrow.mode = 0)
 
 ## -----------------------------------------------------------------------------
 rollup_mass_props(test_tree, test_table)
@@ -38,7 +40,7 @@ na_mass_props_and_unc <- function(d, t, v) {
 na_mass_props_and_unc_update <- function(d, t, s) {
   update_mass_props_and_unc(d, t, s, override = na_mass_props_and_unc)
 }
-sawe_input <- rollup(sawe_tree, sawe_table, update = na_mass_props_and_unc_update, validate_ds = validate_mass_props_and_unc_table)
+sawe_input <- rollupTree::rollup(sawe_tree, sawe_table, update = na_mass_props_and_unc_update, validate_ds = validate_mass_props_and_unc_table)
 
 ## -----------------------------------------------------------------------------
 sawe_input
@@ -237,7 +239,7 @@ alt_sigma_MOI_sawe <- c(
 )
 
 ## ----echo = FALSE-------------------------------------------------------------
-mp_tree_depth <- max(dfs(mp_tree, 2, mode = "in", order=FALSE, dist=TRUE)$dist) + 1
+mp_tree_depth <- max(igraph::dfs(mp_tree, 2, mode = "in", order=FALSE, dist=TRUE)$dist) + 1
 nv <- length(igraph::V(mp_tree))
 ne <- length(igraph::E(mp_tree))
 nl <- length(which(igraph::degree(mp_tree, mode="in") == 0))
@@ -249,7 +251,7 @@ no <- (nv - nl) * 20
 #           'mp + unc    validation' = rollup_mass_props_and_unc(mp_tree, mp_table),
 #           'mp       no validation' = rollup_mass_props_fast(mp_tree, mp_table),
 #           'mp          validation' = rollup_mass_props(mp_tree, mp_table),
-#           replications = 1,
+#           replications = 10,
 #           columns = c("test", "replications", "elapsed", "user.self", "sys.self")
-# )
+# ) |> mutate(elapsed = elapsed / 10, user.self = user.self / 10, sys.self = sys.self / 10)
 

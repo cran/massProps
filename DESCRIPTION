@@ -1,6 +1,6 @@
 Package: massProps
 Title: Calculate Mass Properties and Uncertainties of Tree Structures
-Version: 0.3.1
+Version: 0.3.2
 Authors@R: 
     person(given=c("James", "Steven"), family="Jenkins",
       email = "sjenkins@studioj.us",
@@ -21,9 +21,9 @@ URL: https://jsjuni.github.io/massProps/,
         https://github.com/jsjuni/massProps
 BugReports: https://github.com/jsjuni/massProps/issues
 NeedsCompilation: no
-Packaged: 2025-03-05 22:07:52 UTC; sjenkins
+Packaged: 2025-04-19 19:29:51 UTC; sjenkins
 Author: James Steven Jenkins [aut, cre, cph]
     (<https://orcid.org/0000-0002-0725-0884>)
 Maintainer: James Steven Jenkins <sjenkins@studioj.us>
 Repository: CRAN
-Date/Publication: 2025-03-05 22:30:02 UTC
+Date/Publication: 2025-04-19 20:02:02 UTC
